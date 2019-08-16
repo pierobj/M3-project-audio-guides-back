@@ -20,10 +20,17 @@ exports.isNotLoggedIn = () => (req, res, next) => {
 
 exports.validationLoggin = () => (req, res, next) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     next(createError(422));
   } else {
     next();
+  }
+};
+
+exports.isAdmin = () => (req, res, next) => {
+  if (req.session.currentUser.isAdmin) {
+    next();
+  } else {
+    next(createError(401));
   }
 };

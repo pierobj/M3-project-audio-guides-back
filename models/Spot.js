@@ -26,19 +26,20 @@ const spotSchema = new Schema({
       type: String,
       default: 'Point'
     },
-    coordinates: [Number],
-    required: true
+    coordinates: {
+      type: [],
+      required: true
+    }
   },
   img: {
-    type: String, required: true
+    type: String,
+    required: true
   },
   rating: [Number],
   tags: [String],
   played: { type: Number },
   customIcon: { type: String },
-  audioFile: {
-    type: String,
-    required: true }
+  audioFile: { type: String }
 }, {
   timestamps: true
 });
