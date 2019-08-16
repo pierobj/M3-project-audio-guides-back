@@ -42,4 +42,14 @@ router.put('/spots/:id/edit', async (req, res, next) => {
   }
 });
 
+router.delete('/spots/:id/delete', async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await Spot.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Spot deleted' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
