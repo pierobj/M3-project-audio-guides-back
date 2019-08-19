@@ -13,8 +13,10 @@ const tripSchema = new Schema({
       type: String,
       default: 'Point'
     },
-    coordinates: [Number],
-    required: true
+    coordinates: {
+      type: [],
+      required: true
+    }
   },
   img: { type: String },
   fromDate: {
