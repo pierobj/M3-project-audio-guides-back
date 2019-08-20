@@ -52,11 +52,11 @@ router.post('/new', async (req, res, next) => {
       toDate,
       new: true
     });
-    // Aquí devuelve un objeto, con lo cual lo podemos pasar directamente al json()
     const newTripId = createdTrip._id;
     console.log(req);
     const updatedUser = await User.findByIdAndUpdate(userId, { $push: { trips: newTripId } }, { new: true });
     req.session.currentUser = updatedUser;
+    // Aquí devuelve un objeto, con lo cual lo podemos pasar directamente al json()
     res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
