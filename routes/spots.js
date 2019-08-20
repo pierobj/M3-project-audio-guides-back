@@ -18,4 +18,15 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const spotId = req.params.id;
+    const response = await Spot.findById(spotId);
+    // como devuelve un array, lo pasamos al método json() como un objeto entre {}
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
