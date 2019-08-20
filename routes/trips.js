@@ -26,7 +26,8 @@ const { isLoggedIn } = require('../helpers/middlewares');
 router.get('/', async (req, res, next) => {
   try {
     const userId = req.session.currentUser._id;
-    const listOfTrips = await User.findById(userId, { trips: 1, _id: 0 });
+    // const listOfTrips = await User.findById(userId, { trips: 1, _id: 0 }).populate('trips');
+    const listOfTrips = await User.findById(userId).populate('trips');
     console.log(listOfTrips);
     // como devuelve un array, lo pasamos al método json() como un objeto entre {}
     res.status(200).json({ listOfTrips });
@@ -38,10 +39,14 @@ router.get('/', async (req, res, next) => {
 // router.post('/new', isLoggedIn(), isAdmin(), async (req, res, next) => {
 router.post('/new', async (req, res, next) => {
   try {
-    const { city, location, img, fromDate, toDate, user } = req.body;
+    const { city, country, location, img, fromDate, toDate } = req.body;
+    const userId = req.session.currentUser._id;
+    console.log(req.body);
     const createdTrip = await Trip.create({
       city,
-      location: { coordinates: location.split(',').map(Number) },
+      country,
+      // location: { coordinates: location.split(',').map(Number) },
+      location: { coordinates: location },
       img,
       fromDate,
       toDate,
@@ -50,7 +55,7 @@ router.post('/new', async (req, res, next) => {
     // Aquí devuelve un objeto, con lo cual lo podemos pasar directamente al json()
     const newTripId = createdTrip._id;
     console.log(req);
-    const updatedUser = await User.findByIdAndUpdate(user, { $push: { trips: newTripId } }, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(userId, { $push: { trips: newTripId } }, { new: true });
     req.session.currentUser = updatedUser;
     res.status(200).json(updatedUser);
   } catch (error) {

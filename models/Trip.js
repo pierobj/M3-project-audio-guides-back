@@ -8,6 +8,10 @@ const tripSchema = new Schema({
     type: String,
     required: true
   },
+  country: {
+    type: String,
+    required: true
+  },
   location: {
     type: {
       type: String,

@@ -16,6 +16,7 @@ const auth = require('./routes/auth');
 const admin = require('./routes/admin');
 const spots = require('./routes/spots');
 const trips = require('./routes/trips');
+const user = require('./routes/user');
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -65,6 +66,7 @@ app.use('/auth', auth);
 app.use('/admin', admin);
 app.use('/spots', spots);
 app.use('/trips', trips);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
