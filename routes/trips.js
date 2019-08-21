@@ -9,7 +9,7 @@ const User = require('../models/User');
 const { isLoggedIn } = require('../helpers/middlewares');
 
 // list of all user trips
-router.get('/', async (req, res, next) => {
+router.get('/', isLoggedIn(), async (req, res, next) => {
   try {
     const userId = req.session.currentUser._id;
     // const listOfTrips = await User.findById(userId, { trips: 1, _id: 0 }).populate('trips');
@@ -17,6 +17,17 @@ router.get('/', async (req, res, next) => {
     console.log(listOfTrips);
     // como devuelve un array, lo pasamos al método json() como un objeto entre {}
     res.status(200).json({ listOfTrips });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/:id', isLoggedIn(), async (req, res, next) => {
+  try {
+    const tripId = req.params.id;
+    const response = await Trip.findById(tripId);
+    // como devuelve un array, lo pasamos al método json() como un objeto entre {}
+    res.status(200).json(response);
   } catch (error) {
     next(error);
   }
