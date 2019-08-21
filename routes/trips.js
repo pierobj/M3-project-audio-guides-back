@@ -8,20 +8,6 @@ const User = require('../models/User');
 
 const { isLoggedIn } = require('../helpers/middlewares');
 
-// list of all DDBB trips
-// router.get('/', isLoggedIn(), async (req, res, next) => {
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const { userId } = req.body;
-//     console.log(userId);
-//     const listOfTrips = await Trip.find();
-//     // como devuelve un array, lo pasamos al método json() como un objeto entre {}
-//     res.status(200).json({ listOfTrips });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
 // list of all user trips
 router.get('/', async (req, res, next) => {
   try {
@@ -36,8 +22,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// router.post('/new', isLoggedIn(), isAdmin(), async (req, res, next) => {
-router.post('/new', async (req, res, next) => {
+router.post('/new', isLoggedIn(), async (req, res, next) => {
   try {
     const { city, country, location, img, fromDate, toDate } = req.body;
     const userId = req.session.currentUser._id;
@@ -63,8 +48,7 @@ router.post('/new', async (req, res, next) => {
   }
 });
 
-// router.put('/:id/edit', isLoggedIn(), isAdmin(), async (req, res, next) => {
-router.put('/:id/edit', async (req, res, next) => {
+router.put('/:id/edit', isLoggedIn(), async (req, res, next) => {
   const { id } = req.params;
   const tripUpdated = req.body;
   try {
@@ -75,7 +59,7 @@ router.put('/:id/edit', async (req, res, next) => {
   }
 });
 
-router.delete('/:id/delete', async (req, res, next) => {
+router.delete('/:id/delete', isLoggedIn(), async (req, res, next) => {
   const { id } = req.params;
   try {
     await Trip.findByIdAndDelete(id);

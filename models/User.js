@@ -47,6 +47,10 @@ const userSchema = new Schema({
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  img: {
+    type: String,
+    default: '/images/profile.svg'
   }
 }, {
   timestamps: true
