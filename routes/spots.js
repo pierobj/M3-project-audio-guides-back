@@ -7,7 +7,7 @@ const Spot = require('../models/Spot');
 
 const { isLoggedIn } = require('../helpers/middlewares');
 
-router.get('/', isLoggedIn(), async (req, res, next) => {
+router.get('/', async (req, res, next) => {
 // router.get('/', async (req, res, next) => {
   try {
     const listOfSpots = await Spot.find();
@@ -18,7 +18,7 @@ router.get('/', isLoggedIn(), async (req, res, next) => {
   }
 });
 
-router.get('/:id', isLoggedIn(), async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const spotId = req.params.id;
     const response = await Spot.findById(spotId);
