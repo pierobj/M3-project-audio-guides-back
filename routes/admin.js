@@ -7,8 +7,8 @@ const Spot = require('../models/Spot');
 
 const { isLoggedIn, isAdmin } = require('../helpers/middlewares');
 
-// router.get('/', isLoggedIn(), isAdmin(), async (req, res, next) => {
-router.get('/spots', async (req, res, next) => {
+router.get('/', isLoggedIn(), isAdmin(), async (req, res, next) => {
+// router.get('/spots', async (req, res, next) => {
   try {
     const listOfSpots = await Spot.find();
     // como devuelve un array, lo pasamos al método json() como un objeto entre {}
@@ -18,8 +18,8 @@ router.get('/spots', async (req, res, next) => {
   }
 });
 
-// router.post('/new', isLoggedIn(), isAdmin(), async (req, res, next) => {
-router.post('/spots/new', async (req, res, next) => {
+router.post('/new', isLoggedIn(), isAdmin(), async (req, res, next) => {
+// router.post('/spots/new', async (req, res, next) => {
   try {
     const newSpot = req.body;
     const createdSpot = await Spot.create(newSpot);
@@ -30,8 +30,8 @@ router.post('/spots/new', async (req, res, next) => {
   }
 });
 
-// router.put('/:id/edit', isLoggedIn(), isAdmin(), async (req, res, next) => {
-router.put('/spots/:id/edit', async (req, res, next) => {
+router.put('/:id/edit', isLoggedIn(), isAdmin(), async (req, res, next) => {
+// router.put('/spots/:id/edit', async (req, res, next) => {
   const { id } = req.params;
   const spotUpdated = req.body;
   try {
@@ -42,7 +42,7 @@ router.put('/spots/:id/edit', async (req, res, next) => {
   }
 });
 
-router.delete('/spots/:id/delete', async (req, res, next) => {
+router.delete('/spots/:id/delete', isLoggedIn(), isAdmin(), async (req, res, next) => {
   const { id } = req.params;
   try {
     await Spot.findByIdAndDelete(id);

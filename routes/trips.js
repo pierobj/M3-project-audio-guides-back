@@ -6,7 +6,7 @@ const router = express.Router();
 const Trip = require('../models/Trip');
 const User = require('../models/User');
 
-const { isLoggedIn } = require('../helpers/middlewares');
+const { isLoggedIn, dateControl, isTripOwner } = require('../helpers/middlewares');
 
 router.get('/', isLoggedIn(), async (req, res, next) => {
   try {
@@ -18,7 +18,7 @@ router.get('/', isLoggedIn(), async (req, res, next) => {
   }
 });
 
-router.get('/:id', isLoggedIn(), async (req, res, next) => {
+router.get('/:id', isLoggedIn(), isTripOwner(), async (req, res, next) => {
   try {
     const tripId = req.params.id;
     const response = await Trip.findById(tripId);
@@ -28,7 +28,7 @@ router.get('/:id', isLoggedIn(), async (req, res, next) => {
   }
 });
 
-router.post('/new', isLoggedIn(), async (req, res, next) => {
+router.post('/new', isLoggedIn(), dateControl(), async (req, res, next) => {
   try {
     const { city, country, location, img, fromDate, toDate } = req.body;
     const userId = req.session.currentUser._id;
@@ -50,7 +50,7 @@ router.post('/new', isLoggedIn(), async (req, res, next) => {
   }
 });
 
-router.put('/:id/edit', isLoggedIn(), async (req, res, next) => {
+router.put('/:id/edit', isLoggedIn(), isTripOwner(), async (req, res, next) => {
   const { id } = req.params;
   const tripUpdated = req.body;
   try {
@@ -61,7 +61,7 @@ router.put('/:id/edit', isLoggedIn(), async (req, res, next) => {
   }
 });
 
-router.delete('/:id/delete', isLoggedIn(), async (req, res, next) => {
+router.delete('/:id/delete', isLoggedIn(), isTripOwner(), async (req, res, next) => {
   const { id } = req.params;
   try {
     await Trip.findByIdAndDelete(id);

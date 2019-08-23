@@ -2,16 +2,15 @@
 
 const express = require('express');
 const createError = require('http-errors');
-
 const router = express.Router();
 const bcrypt = require('bcrypt');
-
 const User = require('../models/User');
 
 const {
   isLoggedIn,
   isNotLoggedIn,
-  validationLoggin
+  validationLogin,
+  validationSignup
 } = require('../helpers/middlewares');
 
 router.get('/me', isLoggedIn(), (req, res, next) => {
@@ -21,7 +20,7 @@ router.get('/me', isLoggedIn(), (req, res, next) => {
 router.post(
   '/login',
   isNotLoggedIn(),
-  validationLoggin(),
+  validationLogin(),
   async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -43,7 +42,7 @@ router.post(
 router.post(
   '/signup',
   isNotLoggedIn(),
-  validationLoggin(),
+  validationSignup(),
   async (req, res, next) => {
     const { email, password, name, birthdate, language } = req.body;
     try {
